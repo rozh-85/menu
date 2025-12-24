@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lokmada Admin</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body class="bg-zinc-950 text-zinc-100 min-h-screen font-sans">
+    <!-- Top bar -->
+    <nav
+      class="border-b border-zinc-800 p-4 sticky top-0 bg-zinc-950/80 backdrop-blur-md z-50"
+    >
+      <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-[#fcc624]">Admin Panel</h1>
+
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 text-zinc-400 hover:text-white text-sm"
+        >
+          <span class="material-icons-round text-sm">open_in_new</span>
+          View Site
+        </a>
+      </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto p-4 md:p-8">
+      <!-- Tabs -->
+      <div class="flex gap-3 mb-6 border-b border-zinc-800">
+        <button
+          id="tabCategories"
+          class="px-4 py-2 text-sm font-semibold border-b-2 border-[#fcc624]"
+        >
+          Categories
+        </button>
+        <button
+          id="tabProducts"
+          class="px-4 py-2 text-sm font-semibold text-zinc-400 border-b-2 border-transparent"
+        >
+          Products
+        </button>
+      </div>
+
+      <!-- CATEGORIES PAGE -->
+      <section id="pageCategories" class="space-y-6">
+        <!-- Add / Edit category -->
+        <section
+          class="bg-zinc-900 p-6 rounded-3xl border border-zinc-800 space-y-4"
+        >
+          <h2 class="text-xl font-bold flex items-center gap-2">
+            <span class="material-icons-round text-[#fcc624]">category</span>
+            <span id="catFormTitle">Add Category</span>
+          </h2>
+
+          <form id="catForm" class="space-y-4">
+            <input type="hidden" id="catId" />
+            <div class="space-y-2">
+              <label class="text-xs font-bold text-zinc-500 uppercase"
+                >Name</label
+              >
+              <input
+                id="catName"
+                type="text"
+                required
+                class="bg-zinc-800 border-none rounded-xl w-full px-4 py-2 text-sm focus:ring-2 focus:ring-[#fcc624] outline-none"
+              />
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-xs font-bold text-zinc-500 uppercase"
+                >Image (optional)</label
+              >
+              <input
+                id="catImage"
+                type="file"
+                accept="image/*"
+                class="block w-full text-sm text-zinc-400
+                       file:mr-4 file:py-2 file:px-4 file:rounded-xl
+                       file:border-0 file:text-sm file:font-bold
+                       file:bg-[#fcc624] file:text-black
+                       hover:file:bg-[#fcc624]/80 cursor-pointer"
+              />
+            </div>
+
+            <div class="flex gap-2">
+              <button
+                type="submit"
+                class="bg-[#fcc624] text-black px-4 py-2 rounded-xl text-sm font-bold flex-1"
+              >
+                Save Category
+              </button>
+              <button
+                type="button"
+                id="catCancelEdit"
+                class="hidden bg-zinc-700 text-zinc-100 px-4 py-2 rounded-xl text-sm font-semibold"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Category list -->
+        <section
+          class="bg-zinc-900 p-6 rounded-3xl border border-zinc-800 space-y-4"
+        >
+          <h2 class="text-xl font-bold flex items-center gap-2">
+            <span class="material-icons-round text-[#fcc624]">list</span>
+            Categories
+          </h2>
+
+          <div id="catList" class="space-y-2 text-sm"></div>
+        </section>
+      </section>
+
+      <!-- PRODUCTS PAGE -->
+      <section id="pageProducts" class="space-y-6 hidden">
+        <!-- Add / Edit product -->
+        <section
+          class="bg-zinc-900 p-6 rounded-3xl border border-zinc-800 space-y-6"
+        >
+          <h2 class="text-xl font-bold flex items-center gap-2">
+            <span class="material-icons-round text-[#fcc624]">add_box</span>
+            <span id="prodFormTitle">Add Product</span>
+          </h2>
+
+          <form id="productForm" class="grid gap-6">
+            <input type="hidden" id="prodId" />
+            <div class="grid md:grid-cols-2 gap-4">
+              <div class="space-y-2">
+                <label class="text-xs font-bold text-zinc-500 uppercase"
+                  >Product Name</label
+                >
+                <input
+                  name="name"
+                  id="prodName"
+                  required
+                  type="text"
+                  class="bg-zinc-800 border-none rounded-xl w-full px-4 py-2 text-sm focus:ring-2 focus:ring-[#fcc624] outline-none"
+                />
+              </div>
+
+              <div class="space-y-2">
+                <label class="text-xs font-bold text-zinc-500 uppercase"
+                  >Category</label
+                >
+                <select
+                  id="catSelect"
+                  name="categoryid"
+                  required
+                  class="bg-zinc-800 border-none rounded-xl w-full px-4 py-2 text-sm focus:ring-2 focus:ring-[#fcc624] outline-none"
+                >
+                  <option value="">Select Category</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-xs font-bold text-zinc-500 uppercase"
+                >Description</label
+              >
+              <textarea
+                name="description"
+                id="prodDesc"
+                class="bg-zinc-800 border-none rounded-xl w-full px-4 py-3 h-24 text-sm focus:ring-2 focus:ring-[#fcc624] outline-none"
+              ></textarea>
+            </div>
+
+            <div class="space-y-2">
+              <label class="text-xs font-bold text-zinc-500 uppercase"
+                >Image (optional)</label
+              >
+              <input
+                name="image"
+                id="prodImage"
+                type="file"
+                accept="image/*"
+                class="block w-full text-sm text-zinc-400
+                       file:mr-4 file:py-2 file:px-4 file:rounded-xl
+                       file:border-0 file:text-sm file:font-bold
+                       file:bg-[#fcc624] file:text-black
+                       hover:file:bg-[#fcc624]/80 cursor-pointer"
+              />
+            </div>
+
+            <!-- toggle for multi / single price -->
+            <div class="flex items-center gap-2">
+              <input
+                id="isMulti"
+                type="checkbox"
+                class="w-4 h-4 text-[#fcc624] border-zinc-600 bg-zinc-800 rounded"
+                checked
+              />
+              <label for="isMulti" class="text-xs font-semibold text-zinc-300">
+                Multi priced (different sizes)
+              </label>
+            </div>
+
+            <div class="space-y-3">
+              <label class="text-xs font-bold text-zinc-500 uppercase"
+                >Pricing</label
+              >
+              <div id="priceRows" class="space-y-2"></div>
+              <button
+                type="button"
+                id="addPriceBtn"
+                class="text-[#fcc624] text-xs font-bold flex items-center gap-1"
+              >
+                <span class="material-icons-round text-sm">add_circle</span>
+                Add size / price
+              </button>
+            </div>
+
+            <div class="flex gap-2">
+              <button
+                type="submit"
+                class="bg-[#fcc624] text-black font-bold py-3 rounded-2xl w-full text-sm hover:scale-[1.01] active:scale-95 transition-transform"
+              >
+                Save Product
+              </button>
+              <button
+                type="button"
+                id="prodCancelEdit"
+                class="hidden bg-zinc-700 text-zinc-100 px-4 py-2 rounded-2xl text-sm font-semibold"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Product list -->
+        <section
+          class="bg-zinc-900 p-6 rounded-3xl border border-zinc-800 space-y-4"
+        >
+          <h2 class="text-xl font-bold flex items-center gap-2">
+            <span class="material-icons-round text-[#fcc624]">restaurant</span>
+            Products
+          </h2>
+
+          <div id="productList" class="space-y-3 text-sm"></div>
+        </section>
+      </section>
+    </main>
+
+    <script>
+      const API_BASE = '/api';
+
+      // Tracks which product is being edited
+      let editingProduct = null; // { id, categoryid, name, description, prices, isMulti }
+      let editingCategoryId = null;
+
+      // Tabs
+      const tabCategories = document.getElementById('tabCategories');
+      const tabProducts = document.getElementById('tabProducts');
+      const pageCategories = document.getElementById('pageCategories');
+      const pageProducts = document.getElementById('pageProducts');
+
+      tabCategories.addEventListener('click', () => {
+        tabCategories.classList.add('border-[#fcc624]', 'text-white');
+        tabProducts.classList.remove('border-[#fcc624]', 'text-white');
+        tabProducts.classList.add('text-zinc-400');
+        pageCategories.classList.remove('hidden');
+        pageProducts.classList.add('hidden');
+      });
+
+      tabProducts.addEventListener('click', () => {
+        tabProducts.classList.add('border-[#fcc624]', 'text-white');
+        tabCategories.classList.remove('border-[#fcc624]', 'text-white');
+        tabCategories.classList.add('text-zinc-400');
+        pageProducts.classList.remove('hidden');
+        pageCategories.classList.add('hidden');
+      });
+
+      // -------- Categories ----------
+      async function fetchCats() {
+        const res = await fetch(API_BASE + '/categories');
+        const cats = await res.json();
+
+        const list = document.getElementById('catList');
+        const select = document.getElementById('catSelect');
+
+        list.innerHTML =
+          cats.length === 0
+            ? '<p class="text-xs text-zinc-500">No categories yet.</p>'
+            : cats
+                .map(
+                  (c) => `
+          <div class="flex items-center gap-3 bg-zinc-800 px-3 py-2 rounded-xl">
+            ${
+              c.image_url
+                ? `<img src="${c.image_url}" class="w-8 h-8 rounded-lg object-cover" />`
+                : '<div class="w-8 h-8 rounded-lg bg-zinc-700 flex items-center justify-center text-[10px] text-zinc-300">N/A</div>'
+            }
+            <span class="font-semibold flex-1">${c.name}</span>
+            <div class="flex gap-2">
+              <button
+                onclick="startEditCategory(${c.id}, '${encodeURIComponent(
+                    c.name
+                  )}')"
+                class="text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1 text-xs"
+              >
+                <span class="material-icons-round text-xs">edit</span>Edit
+              </button>
+              <button
+                onclick="deleteCat(${c.id})"
+                class="text-red-400 hover:text-red-300 inline-flex items-center gap-1 text-xs"
+              >
+                <span class="material-icons-round text-xs">delete</span>Delete
+              </button>
+            </div>
+          </div>`
+                )
+                .join('');
+
+        select.innerHTML =
+          '<option value="">Select Category</option>' +
+          cats
+            .map(
+              (c) =>
+                `<option value="${c.id}">
+                  ${c.name}
+                </option>`
+            )
+            .join('');
+      }
+
+      document
+        .getElementById('catForm')
+        .addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const id = document.getElementById('catId').value || null;
+          const nameInput = document.getElementById('catName');
+          const fileInput = document.getElementById('catImage');
+
+          const name = nameInput.value.trim();
+          if (!name) return;
+
+          const formData = new FormData();
+          formData.append('name', name);
+          if (fileInput.files[0]) {
+            formData.append('image', fileInput.files[0]);
+          }
+
+          let url = API_BASE + '/categories';
+          let method = 'POST';
+
+          if (id) {
+            // Editing existing category
+            url = API_BASE + '/categories/' + id;
+            method = 'PUT';
+          }
+
+          const res = await fetch(url, {
+            method,
+            body: formData,
+          });
+
+          if (!res.ok) {
+            alert('Failed to save category');
+            return;
+          }
+
+          document.getElementById('catFormTitle').innerText = 'Add Category';
+          document.getElementById('catId').value = '';
+          document.getElementById('catCancelEdit').classList.add('hidden');
+          nameInput.value = '';
+          fileInput.value = '';
+          fetchCats();
+        });
+
+      function startEditCategory(id, encodedName) {
+        const name = decodeURIComponent(encodedName);
+        document.getElementById('catId').value = id;
+        document.getElementById('catName').value = name;
+        document.getElementById('catImage').value = '';
+        document.getElementById('catFormTitle').innerText = 'Edit Category';
+        document.getElementById('catCancelEdit').classList.remove('hidden');
+      }
+
+      document
+        .getElementById('catCancelEdit')
+        .addEventListener('click', () => {
+          document.getElementById('catFormTitle').innerText = 'Add Category';
+          document.getElementById('catId').value = '';
+          document.getElementById('catName').value = '';
+          document.getElementById('catImage').value = '';
+          document.getElementById('catCancelEdit').classList.add('hidden');
+        });
+
+      async function deleteCat(id) {
+        if (!confirm('Delete this category and ALL its products?')) return;
+        await fetch(API_BASE + '/categories/' + id, { method: 'DELETE' });
+        fetchCats();
+        fetchMenu();
+      }
+
+      // -------- Prices: multi or single ----------
+      const isMulti = document.getElementById('isMulti');
+      const priceRows = document.getElementById('priceRows');
+      const addPriceBtn = document.getElementById('addPriceBtn');
+
+      function renderPriceFields(prices = null, multi = true) {
+        priceRows.innerHTML = '';
+        isMulti.checked = multi;
+
+        if (prices && prices.length) {
+          if (multi) {
+            prices.forEach((p) =>
+              addPriceRow(p.label, p.value.replace(/^IQD\s*/i, ''), false)
+            );
+            addPriceBtn.classList.remove('hidden');
+          } else {
+            const first = prices[0];
+            addPriceRow('', first.value.replace(/^IQD\s*/i, ''), true);
+            addPriceBtn.classList.add('hidden');
+          }
+          return;
+        }
+
+        // default
+        if (multi) {
+          addPriceRow('Small', '', false);
+          addPriceRow('Medium', '', false);
+          addPriceRow('Large', '', false);
+          addPriceBtn.classList.remove('hidden');
+        } else {
+          addPriceRow('', '', true);
+          addPriceBtn.classList.add('hidden');
+        }
+      }
+
+      function addPriceRow(size = '', price = '', single = false) {
+        const div = document.createElement('div');
+        div.className = 'flex gap-2';
+        div.innerHTML = `
+          ${
+            single
+              ? ''
+              : `<input
+                   type="text"
+                   placeholder="Size"
+                   value="${size}"
+                   class="price-label bg-zinc-800 border-none rounded-xl w-full px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-[#fcc624]"
+                 />`
+          }
+          <div class="flex items-center gap-1 w-full">
+            <span class="text-[11px] text-zinc-400 whitespace-nowrap">IQD</span>
+            <input
+              type="text"
+              placeholder="4000"
+              value="${price}"
+              class="price-value bg-zinc-800 border-none rounded-xl w-full px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#fcc624]"
+            />
+          </div>
+          ${
+            single
+              ? ''
+              : `<button type="button" class="text-zinc-500 p-2"
+                     onclick="this.parentElement.remove()">
+                   <span class="material-icons-round text-sm">remove_circle</span>
+                 </button>`
+          }
+        `;
+        priceRows.appendChild(div);
+      }
+
+      isMulti.addEventListener('change', () =>
+        renderPriceFields(null, isMulti.checked)
+      );
+      addPriceBtn.addEventListener('click', () => addPriceRow());
+
+      // -------- Products ----------
+      async function fetchMenu() {
+        const res = await fetch(API_BASE + '/menu');
+        if (!res.ok) return;
+        const data = await res.json();
+
+        const productList = document.getElementById('productList');
+        let html = '';
+        data.forEach((cat) => {
+          if (!cat.products || cat.products.length === 0) return;
+          html += `
+            <div class="mt-2">
+              <h3 class="text-sm font-bold text-zinc-300 mb-1">${cat.name}</h3>
+              <div class="space-y-1">
+          `;
+          cat.products.forEach((p) => {
+            const multi = p.prices.length > 1;
+            const firstPrice = p.prices[0]?.value || '';
+            html += `
+              <div class="flex justify-between items-center bg-zinc-800 px-3 py-2 rounded-xl">
+                <div>
+                  <div class="font-semibold">${p.name}</div>
+                  <div class="text-[11px] text-zinc-400 line-clamp-1">
+                    ${p.description || ''}
+                  </div>
+                  <div class="text-[11px] text-[#fcc624] mt-1">
+                    ${multi ? 'Multi priced' : firstPrice}
+                  </div>
+                </div>
+                <div class="flex gap-2">
+                  <button
+                    onclick='startEditProduct(${JSON.stringify(
+                      p.id
+                    )}, ${JSON.stringify(cat.id)})'
+                    class="text-emerald-400 hover:text-emerald-300 inline-flex items-center gap-1 text-xs"
+                  >
+                    <span class="material-icons-round text-xs">edit</span>
+                    Edit
+                  </button>
+                  <button
+                    onclick="deleteProduct(${p.id})"
+                    class="text-red-400 hover:text-red-300 inline-flex items-center gap-1 text-xs"
+                  >
+                    <span class="material-icons-round text-xs">delete</span>
+                    Delete
+                  </button>
+                </div>
+              </div>
+            `;
+          });
+          html += '</div></div>';
+        });
+        productList.innerHTML =
+          html || '<p class="text-xs text-zinc-500">No products yet.</p>';
+      }
+
+      async function deleteProduct(id) {
+        if (!confirm('Delete this product?')) return;
+        await fetch(API_BASE + '/products/' + id, { method: 'DELETE' });
+        fetchMenu();
+      }
+
+      async function startEditProduct(prodId, catId) {
+        // load full menu to find this product
+        const res = await fetch(API_BASE + '/menu');
+        const data = await res.json();
+        let found = null;
+        data.forEach((c) => {
+          c.products.forEach((p) => {
+            if (p.id === prodId) {
+              found = { ...p, categoryid: c.id };
+            }
+          });
+        });
+        if (!found) return;
+
+        editingProduct = found;
+
+        document.getElementById('prodId').value = found.id;
+        document.getElementById('prodName').value = found.name;
+        document.getElementById('prodDesc').value = found.description || '';
+        document.getElementById('catSelect').value = String(found.categoryid);
+        document.getElementById('prodImage').value = '';
+        document.getElementById('prodFormTitle').innerText = 'Edit Product';
+
+        const multi = found.prices.length > 1;
+        renderPriceFields(found.prices, multi);
+
+        document.getElementById('prodCancelEdit').classList.remove('hidden');
+        tabProducts.click();
+      }
+
+      document
+        .getElementById('prodCancelEdit')
+        .addEventListener('click', () => {
+          editingProduct = null;
+          document.getElementById('prodId').value = '';
+          document.getElementById('prodName').value = '';
+          document.getElementById('prodDesc').value = '';
+          document.getElementById('prodImage').value = '';
+          document.getElementById('catSelect').value = '';
+          document.getElementById('prodFormTitle').innerText = 'Add Product';
+          document.getElementById('prodCancelEdit').classList.add('hidden');
+          renderPriceFields(null, true);
+        });
+
+      // Product submit with IQD prefix and single‑price support
+      document
+        .getElementById('productForm')
+        .addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const form = e.target;
+          const formData = new FormData(form);
+
+          const labels = document.querySelectorAll('.price-label');
+          const values = document.querySelectorAll('.price-value');
+          const prices = [];
+
+          if (isMulti.checked) {
+            labels.forEach((l, i) => {
+              const label = l.value.trim();
+              const raw = values[i].value.trim();
+              if (!raw || !label) return;
+              const clean = raw.replace(/[^\d]/g, '');
+              const value = `IQD ${clean}`;
+              prices.push({ label, value });
+            });
+          } else {
+            const raw = values[0].value.trim();
+            if (!raw) {
+              alert('Enter price');
+              return;
+            }
+            const clean = raw.replace(/[^\d]/g, '');
+            const value = `IQD ${clean}`;
+            prices.push({ label: 'Price', value });
+          }
+
+          if (prices.length === 0) {
+            alert('Add at least one price.');
+            return;
+          }
+
+          formData.append('prices', JSON.stringify(prices));
+
+          let url = API_BASE + '/products';
+          let method = 'POST';
+          const id = document.getElementById('prodId').value || null;
+          if (id) {
+            url = API_BASE + '/products/' + id;
+            method = 'PUT';
+          }
+
+          const res = await fetch(url, {
+            method,
+            body: formData,
+          });
+
+          if (res.ok) {
+            alert('Product saved');
+            editingProduct = null;
+            form.reset();
+            document.getElementById('prodId').value = '';
+            document.getElementById('prodFormTitle').innerText = 'Add Product';
+            document.getElementById('prodCancelEdit').classList.add('hidden');
+            renderPriceFields(null, true);
+            fetchMenu();
+          } else {
+            alert('Failed to save product');
+          }
+        });
+
+      // Init
+      fetchCats();
+      fetchMenu();
+      renderPriceFields(null, true);
+    </script>
+  </body>
+</html>
