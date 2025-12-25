@@ -227,11 +227,11 @@ const App: React.FC = () => {
 
       <footer className="max-w-4xl mx-auto px-4 py-16 text-center text-gray-400 dark:text-zinc-600 text-sm border-t border-zinc-800/50 mt-12">
         <div className="flex justify-center items-center gap-2 mb-4">
-          <span className="font-display text-4xl text-primary opacity-50">Lokmada</span>
+          <span className="font-display text-4xl text-primary opacity-50">RozhCoffe</span>
         </div>
         <p className="font-medium">The Art of Sweetness</p>
         <p className="mt-2 text-xs opacity-60 uppercase tracking-widest">
-          &copy; {new Date().getFullYear()} Lokmada Sweets
+          &copy; {new Date().getFullYear()} RozhCoffe
         </p>
       </footer>
     </div>

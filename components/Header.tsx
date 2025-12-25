@@ -14,7 +14,7 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleTheme }) => {
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           <span className="text-primary font-display text-2xl md:text-3xl tracking-wide select-none drop-shadow-sm">
-            Lokmada
+            RozhCoffe
           </span>
         </div>
 
