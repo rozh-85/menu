@@ -292,6 +292,19 @@ app.delete('/api/products/:id', (req, res) => {
   });
 });
 
+/* ---------- FRONTEND STATIC (React build) ---------- */
+
+// path to Vite build output
+const clientBuildPath = path.join(__dirname, 'dist');
+
+// serve built static files
+app.use(express.static(clientBuildPath));
+
+// root -> React index.html
+app.get('/', (req, res) => {
+  res.sendFile(path.join(clientBuildPath, 'index.html'));
+});
+
 /* ---------- ADMIN & STATIC ROUTES ---------- */
 
 // protected admin page
@@ -299,7 +312,7 @@ app.get(ADMIN_PATH, adminAuth, (req, res) => {
   res.sendFile(path.join(__dirname, 'admin.html'));
 });
 
-// public static files (React app, etc.)
+// (optional) any other static files in project root
 app.use(express.static(__dirname));
 
 app.listen(PORT, () => {
