@@ -59,6 +59,9 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isUsingMock, setIsUsingMock] = useState<boolean>(false);
 
+  // show button when page is scrolled down
+  const [showScrollTop, setShowScrollTop] = useState<boolean>(false);
+
   useEffect(() => {
     if (isDarkMode) document.documentElement.classList.add('dark');
     else document.documentElement.classList.remove('dark');
@@ -116,6 +119,10 @@ const App: React.FC = () => {
     }
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       if (menuData.length === 0) return;
@@ -139,6 +146,18 @@ const App: React.FC = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [menuData]);
+
+  // button appears after 300px scroll
+  useEffect(() => {
+    const handleScrollTopVisibility = () => {
+      if (window.scrollY > 300) setShowScrollTop(true);
+      else setShowScrollTop(false);
+    };
+
+    window.addEventListener('scroll', handleScrollTopVisibility, { passive: true });
+    handleScrollTopVisibility();
+    return () => window.removeEventListener('scroll', handleScrollTopVisibility);
+  }, []);
 
   if (loading) {
     return (
@@ -234,6 +253,16 @@ const App: React.FC = () => {
           &copy; {new Date().getFullYear()} RozhCoffe
         </p>
       </footer>
+
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-5 right-5 z-50 w-11 h-11 rounded-2xl bg-zinc-900/90 border border-yellow-400/70 text-yellow-300 flex items-center justify-center shadow-lg shadow-black/40 active:scale-95 transition-all"
+          aria-label="Back to top"
+        >
+          <span className="material-icons-round text-xl">arrow_upward</span>
+        </button>
+      )}
     </div>
   );
 };
