@@ -19,17 +19,7 @@ const Header: React.FC<HeaderProps> = ({ isDarkMode, onToggleTheme }) => {
         </div>
 
         <div className="flex items-center gap-3">
-          {/* Admin Link */}
-          <button
-            onClick={() => {
-              // backend URL that is protected with username & password
-              window.location.href = 'http://localhost:3000/admin';
-            }}
-            className="bg-surface-light dark:bg-zinc-800 p-2 rounded-lg border border-gray-200 dark:border-zinc-700 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-all flex items-center justify-center"
-            title="Admin Panel"
-          >
-            <span className="material-icons-round text-xl">settings</span>
-          </button>
+         
 
           <div className="hidden sm:block relative group">
             <select className="appearance-none bg-surface-light dark:bg-zinc-800 border border-gray-200 dark:border-zinc-700 text-xs font-bold py-2 pl-4 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-gray-700 dark:text-gray-200 cursor-pointer transition-all uppercase tracking-tighter">
